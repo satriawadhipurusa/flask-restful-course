@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 
 from flask import Flask, jsonify
@@ -16,7 +17,8 @@ from db import db
 # when we send this token through API
 # JWT will call the identity function and get user by id
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL',
+                                                       'sqlite:///data.db')
 app.config['SQL_ALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
